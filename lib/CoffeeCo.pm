@@ -13,14 +13,14 @@ my $db = CoffeeCo::Utils::create_db();
 
 get '/' => sub {
 
+	my @orders = $db->all_orders;
 
-	#redirect '/new_order';
+	template 'orders' => { orders => \@orders, name => "MagicStore" };
 };
 
 get '/new_order' => sub {
 
-
-	template 'new_order';# => { 'title' => "aaaa" };
+	template 'new_order' => { name => "Pass a new order via MagicStore" };
 };
 
 post '/new_order' => sub {
@@ -37,7 +37,8 @@ post '/new_order' => sub {
 	#my $db = CoffeeCo::DB->new( path => q[/tmp/] );
 	
 	$db->store_order( $order );
-	#redirect '/orders';
+	
+	redirect '/orders';
 };
 
 get '/orders' => sub {
